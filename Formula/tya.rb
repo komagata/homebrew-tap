@@ -1,6 +1,6 @@
 class Tya < Formula
   desc "Small indentation-based dynamic language"
-  homepage "https://tya-lang.org/"
+  homepage "https://github.com/komagata/tya"
   url "https://github.com/komagata/tya/archive/refs/tags/v0.2.0.tar.gz"
   sha256 "1b8f0a0adfa7b03107eda3ed1f9539a5cdb7547d2eab5b57772f3019d32593bd"
   head "https://github.com/komagata/tya.git", branch: "main"
@@ -9,7 +9,7 @@ class Tya < Formula
 
   def install
     system "go", "build", *std_go_args(output: bin/"tya"), "./cmd/tya"
-    (share/"tya/runtime").install Dir["runtime/*"]
+    (pkgshare/"runtime").install Dir["runtime/*"]
   end
 
   test do
