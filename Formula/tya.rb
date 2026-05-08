@@ -1,8 +1,8 @@
 class Tya < Formula
   desc "Small indentation-based dynamic language"
   homepage "https://github.com/komagata/tya"
-  url "https://github.com/komagata/tya/archive/refs/tags/v0.22.0.tar.gz"
-  sha256 "846063941134d322ee999cb4e84796ec7d24a24fa40a7d9a2bdea8dd9d0494e1"
+  url "https://github.com/komagata/tya/archive/refs/tags/v0.23.0.tar.gz"
+  sha256 "87298d162bae6076ce837eb515f98e084cfbd3b9cd279e6009631f5f161d98aa"
   head "https://github.com/komagata/tya.git", branch: "main"
 
   depends_on "go" => :build
@@ -27,7 +27,7 @@ class Tya < Formula
       assert_equal false, string.blank("tya")
     TYA
 
-    assert_equal "0.22.0\n", shell_output("#{bin}/tya version")
+    assert_equal "0.23.0\n", shell_output("#{bin}/tya version")
     assert_equal "Hello, Tya\ntrue\n", shell_output("#{bin}/tya run #{testpath}/hello.tya")
     assert_empty shell_output("#{bin}/tya test #{testpath}/hello_test.tya")
   end
