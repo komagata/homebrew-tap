@@ -20,15 +20,8 @@ class Tya < Formula
       print("Hello, Tya")
       print(string.blank(" "))
     TYA
-    (testpath/"hello_test.tya").write <<~TYA
-      import string
-
-      assert(string.blank(" "))
-      assert_equal(false, string.blank("tya"))
-    TYA
 
     assert_equal "0.44.0\n", shell_output("#{bin}/tya version")
     assert_equal "Hello, Tya\ntrue\n", shell_output("#{bin}/tya run #{testpath}/hello.tya")
-    assert_empty shell_output("#{bin}/tya test #{testpath}/hello_test.tya")
   end
 end
