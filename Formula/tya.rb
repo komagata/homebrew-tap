@@ -1,8 +1,8 @@
 class Tya < Formula
   desc "Small indentation-based dynamic language"
   homepage "https://github.com/komagata/tya"
-  url "https://github.com/komagata/tya/archive/refs/tags/v0.50.0.tar.gz"
-  sha256 "08421d55eb1f42ac5ad610b691b3acd8670885c73fba1081cbe6a33e5c662c64"
+  url "https://github.com/komagata/tya/archive/refs/tags/v0.51.0.tar.gz"
+  sha256 "4c6d98afc636bdb3ed0c8d1e7d5c044c4e37b3dd3f6a754fab459ad0333f1966"
   license "MIT"
   head "https://github.com/komagata/tya.git", branch: "main"
 
@@ -22,7 +22,7 @@ class Tya < Formula
       print(string.blank("  "))
     TYA
 
-    assert_equal "0.50.0\n", shell_output("#{bin}/tya version")
+    assert_equal "0.51.0\n", shell_output("#{bin}/tya version")
     assert_equal "Hello, Tya\ntrue\n", shell_output("#{bin}/tya run #{testpath}/hello.tya")
 
     # v0.49: `tya new` scaffolds a minimal project tree.
@@ -46,5 +46,15 @@ class Tya < Formula
       print(x)
     TYA
     assert_match "TYAL0001", shell_output("#{bin}/tya lint #{testpath}/dirty.tya", 1)
+
+    # v0.51: `tya doc` walks src/ and reports top-level bindings.
+    (testpath/"docproj/src").mkpath
+    (testpath/"docproj/src/lib.tya").write <<~TYA
+      # Returns the doubled value.
+      double = x -> x * 2
+    TYA
+    cd testpath/"docproj" do
+      assert_match "function double", shell_output("#{bin}/tya doc")
+    end
   end
 end
