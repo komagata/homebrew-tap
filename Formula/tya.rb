@@ -1,8 +1,8 @@
 class Tya < Formula
   desc "Small indentation-based dynamic language"
   homepage "https://github.com/komagata/tya"
-  url "https://github.com/komagata/tya/archive/refs/tags/v0.58.0.tar.gz"
-  sha256 "173203a2e81dff6ff7bbae18efc36b0ee6ed34b495b12b18da0ba374eeb17a5c"
+  url "https://github.com/komagata/tya/archive/refs/tags/v0.62.0.tar.gz"
+  sha256 "2f536da7f8c90c495ca49f2fd272c3237917edc1973c64df5c0cd65a520f2819"
   license "MIT"
   head "https://github.com/komagata/tya.git", branch: "main"
 
@@ -16,13 +16,11 @@ class Tya < Formula
 
   test do
     (testpath/"hello.tya").write <<~TYA
-      import string
-
       print("Hello, Tya")
-      print(string.blank("  "))
+      print("  ".blank?())
     TYA
 
-    assert_equal "0.58.0\n", shell_output("#{bin}/tya version")
+    assert_equal "0.62.0\n", shell_output("#{bin}/tya version")
     assert_equal "Hello, Tya\ntrue\n", shell_output("#{bin}/tya run #{testpath}/hello.tya")
 
     # v0.49: `tya new` scaffolds a minimal project tree.
