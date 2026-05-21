@@ -1,17 +1,28 @@
 class Tya < Formula
   desc "Small indentation-based dynamic language"
   homepage "https://github.com/komagata/tya"
-  url "https://github.com/komagata/tya/archive/refs/tags/v0.62.0.tar.gz"
-  sha256 "2f536da7f8c90c495ca49f2fd272c3237917edc1973c64df5c0cd65a520f2819"
+  url "https://github.com/komagata/tya/archive/refs/tags/v0.66.0.tar.gz"
+  sha256 "3f14a11b9794e4514cfe9338f8cb11f6464fe41c88c4a681ff412833a716696b"
   license "MIT"
   head "https://github.com/komagata/tya.git", branch: "main"
 
   depends_on "go" => :build
+  depends_on "openssl@3"
 
   def install
-    system "go", "build", *std_go_args(output: bin/"tya"), "./cmd/tya"
+    inreplace "runtime/tya_runtime.c",
+      "#define _DEFAULT_SOURCE\n#endif",
+      "#define _DEFAULT_SOURCE\n#endif\n#ifndef _DARWIN_C_SOURCE\n#define _DARWIN_C_SOURCE\n#endif"
+
+    system "go", "build", *std_go_args(output: libexec/"tya"), "./cmd/tya"
     (pkgshare/"runtime").install Dir["runtime/*"]
     (pkgshare/"stdlib").install Dir["stdlib/*"]
+
+    openssl = Formula["openssl@3"]
+    (bin/"tya").write_env_script libexec/"tya",
+      CPATH:           openssl.opt_include,
+      LIBRARY_PATH:    openssl.opt_lib,
+      PKG_CONFIG_PATH: openssl.opt_lib/"pkgconfig"
   end
 
   test do
@@ -20,15 +31,15 @@ class Tya < Formula
       print("  ".blank?())
     TYA
 
-    assert_equal "0.62.0\n", shell_output("#{bin}/tya version")
+    assert_equal "0.66.0\n", shell_output("#{bin}/tya version")
     assert_equal "Hello, Tya\ntrue\n", shell_output("#{bin}/tya run #{testpath}/hello.tya")
 
     # v0.49: `tya new` scaffolds a minimal project tree.
     cd testpath do
       system bin/"tya", "new", "scaffold"
-      assert_predicate testpath/"scaffold/tya.toml", :exist?
-      assert_predicate testpath/"scaffold/src/main.tya", :exist?
-      assert_predicate testpath/"scaffold/.gitignore", :exist?
+      assert_path_exists testpath/"scaffold/tya.toml"
+      assert_path_exists testpath/"scaffold/src/main.tya"
+      assert_path_exists testpath/"scaffold/.gitignore"
     end
 
     # v0.49: `tya task` lists tasks defined in tya.toml.
