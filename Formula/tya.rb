@@ -2,7 +2,7 @@ class Tya < Formula
   desc "Small indentation-based dynamic language"
   homepage "https://github.com/komagata/tya"
   url "https://github.com/komagata/tya/archive/refs/tags/v0.67.7.tar.gz"
-  sha256 "449fdf63d8b3b7f4cbcc1c6082b9995f94dfd574f11ff06212f9dabf240984b0"
+  sha256 "b04aa6340a9ee0cc35f9b2291194ec2d3c789c56e4c04ae92e1051d38b41dc4d"
   license "MIT"
   head "https://github.com/komagata/tya.git", branch: "main"
 
