@@ -1,8 +1,8 @@
 class Tya < Formula
   desc "Small indentation-based dynamic language"
   homepage "https://github.com/komagata/tya"
-  url "https://github.com/komagata/tya/archive/refs/tags/v0.69.0.tar.gz"
-  sha256 "57758ead90c06ef5dd6816befd1703fdb121eea92e1f555730a3964e1dc33fc3"
+  url "https://github.com/komagata/tya/archive/refs/tags/v0.70.0.tar.gz"
+  sha256 "17051e9d7e896a8ac8e74050f04e034ccd9dea1403ee7cc77c30f5a35e1a7848"
   license "MIT"
   head "https://github.com/komagata/tya.git", branch: "main"
 
@@ -17,7 +17,7 @@ class Tya < Formula
 
     system "go", "build", *std_go_args(output: libexec/"tya"), "./cmd/tya"
     (pkgshare/"runtime").install Dir["runtime/*"]
-    (pkgshare/"stdlib").install Dir["stdlib/*"]
+    (pkgshare/"lib").install Dir["lib/*"]
 
     openssl = Formula["openssl@3"]
     (bin/"tya").write_env_script libexec/"tya",
@@ -32,7 +32,7 @@ class Tya < Formula
       print("  ".blank?())
     TYA
 
-    assert_equal "0.69.0\n", shell_output("#{bin}/tya version")
+    assert_equal "0.70.0\n", shell_output("#{bin}/tya version")
     assert_equal "Hello, Tya\ntrue\n", shell_output("#{bin}/tya run #{testpath}/hello.tya")
 
     # v0.49: `tya new` scaffolds a minimal project tree.
