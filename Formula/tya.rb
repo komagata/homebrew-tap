@@ -32,7 +32,7 @@ class Tya < Formula
       print("  ".blank?())
     TYA
 
-    assert_equal "0.72.16\n", shell_output("#{bin}/tya version")
+    assert_equal "0.72.17\n", shell_output("#{bin}/tya version")
     assert_equal "Hello, Tya\ntrue\n", shell_output("#{bin}/tya run #{testpath}/hello.tya")
 
     # v0.49: `tya new` scaffolds a minimal project tree.
